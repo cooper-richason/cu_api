@@ -41,7 +41,7 @@ def set_headers(AccessToken:str, #Access Token (API Key) provided by Copper
 session = None
 
 def get_session(**kwargs):
-    '''
+    """
     Function to get current session or create one if one doesn't exist. If both keyword 
     arguments are provided, then the set_headers() function is called.
     
@@ -53,7 +53,7 @@ def get_session(**kwargs):
 
     UserEmail: type=str
         This is your the email associated with your Copper account.
-    '''
+    """
     
     if 'AccessToken' in kwargs and 'UserEmail' in kwargs:
         set_headers(kwargs.get('AccessToken'), kwargs.get('UserEmail'))
