@@ -8,7 +8,7 @@ from . import core, config
 from .core import set_headers
 import pandas as pd
 import pytz
-from tqdm import tqdm
+from tqdm.autonotebook import tqdm
 
 # %% ../nbs/companies.ipynb 4
 def _clean_company_data(company_data:list, #Returned company data as list of dictionaries,
