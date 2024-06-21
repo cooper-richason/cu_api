@@ -6,7 +6,9 @@ __all__ = ['Query']
 # %% ../nbs/query.ipynb 3
 from . import config
 from .core import get_cf_options
+import pandas as pd
 
+# %% ../nbs/query.ipynb 4
 def _check_key(key):
     """
     Function to ensure that 'keys' are custom field id as an interager
@@ -28,7 +30,7 @@ def _check_key(key):
     
     raise ValueError(f"Provided key '{key}' is not a valid custom field name(str) or custom field id(int)")
 
-# %% ../nbs/query.ipynb 4
+# %% ../nbs/query.ipynb 5
 def _check_value(key:int, value):
     """
     Function to convert provided custom field values to their corresponding IDs.
@@ -70,7 +72,7 @@ def _check_value(key:int, value):
     
     return list(set(Updated_List))
 
-# %% ../nbs/query.ipynb 5
+# %% ../nbs/query.ipynb 6
 class Query:
     """
     A class to represent and process search parameters for Copper API.
@@ -205,7 +207,7 @@ class Query:
         return f"Search Object: \nInputs:  {self._data}, \nProcessed Data:  {self._processed_data} \nNative Fields used:{self._native_fields})"
 
 
-# %% ../nbs/query.ipynb 6
+# %% ../nbs/query.ipynb 7
 def _process_query(Query):
     """
     Function to take in a Query object and outputs items needed to search Copper.

@@ -10,6 +10,7 @@ from . import config
 import requests
 import pandas as pd
 
+# %% ../nbs/core.ipynb 6
 def set_headers(AccessToken:str, #Access Token (API Key) provided by Copper
                  UserEmail:str): #Email associated with your API key
     """
@@ -36,7 +37,7 @@ def set_headers(AccessToken:str, #Access Token (API Key) provided by Copper
         'Content-Type':'application/json'
         }
 
-# %% ../nbs/core.ipynb 6
+# %% ../nbs/core.ipynb 7
 session = None
 
 def get_session(**kwargs):
@@ -67,7 +68,7 @@ def get_session(**kwargs):
     
     return config.SESSION
 
-# %% ../nbs/core.ipynb 9
+# %% ../nbs/core.ipynb 10
 def prc_request_cf_data():
     """
     Helpter function to request the custom field data.
@@ -113,7 +114,7 @@ def prc_clean_cf_data(data:json):
 
     return output_dict
 
-# %% ../nbs/core.ipynb 11
+# %% ../nbs/core.ipynb 12
 def prc_get_cf_fields():
     """
     Checks if custom_fields has been set and creates it if it hasn't been set. 
@@ -142,7 +143,7 @@ def prc_get_cf_fields():
         config.LIST_CF_NAMES = custom_fields_list         # List of Names
         config.CF_ID_LOOKUP = reverse_id_lookup           # Name -> ID
 
-# %% ../nbs/core.ipynb 13
+# %% ../nbs/core.ipynb 14
 def get_cf_info(cf_id:str,     # ID of custom field
                 cf_info:list = None,  # Designed information about field, list if multiple items
                )->list: #Returns list if cf_info is list. Otherwise, returns value
@@ -190,7 +191,7 @@ def cf_option_name(cf_id:int, #Coppper ID for custom field
     return get_cf_options(cf_id).get(option_id)
 
 
-# %% ../nbs/core.ipynb 14
+# %% ../nbs/core.ipynb 15
 def _search_loop(search_query, # Instance of Query object
                  url, # Copper API url
                 )->pd.DataFrame:
