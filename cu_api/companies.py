@@ -5,7 +5,6 @@ __all__ = ['search']
 
 # %% ../nbs/companies.ipynb 3
 from . import core, config
-from cu_aup.query import Query
 from .core import set_headers
 import pandas as pd
 import pytz
@@ -13,8 +12,8 @@ from tqdm import tqdm
 
 # %% ../nbs/companies.ipynb 4
 def _clean_company_data(company_data:list, #Returned company data as list of dictionaries,
-                        Output_CF:list = [], # list of custom fields to include in export
-                       ):
+                          cf_fields:list = [], # list of custom fields on companies you would like to include
+):
     """Process to clean returned company data"""
 
     core.prc_cf_dicts()
@@ -42,7 +41,8 @@ def _clean_company_data(company_data:list, #Returned company data as list of dic
 
     output_dict = {}
 
-    for item in native_items: output_dict[item] = company_data.get(item, None)
+    for item in native_items:
+        output_dict[item] = company_data.get(item, None)
     
     custom_field_data = company_data['custom_fields']
 
@@ -51,7 +51,7 @@ def _clean_company_data(company_data:list, #Returned company data as list of dic
         item_name = custom_fields_dict.get(item_id, None)
         data_type = custom_fields[item_id].get('data_type')
 
-        if item_name not in Output_CF or item_name is None:
+        if item_name not in cf_fields or item_name is None:
             continue
         elif item_name is not None and ('options' in list(custom_fields[item_id].keys())):
             item_value = dict_item['value']
@@ -67,41 +67,67 @@ def _clean_company_data(company_data:list, #Returned company data as list of dic
     return output_dict
 
 # %% ../nbs/companies.ipynb 5
-def search(search_query, # Instance of Query object
-           clean_data:bool = True, #Whether to clean results or not
-           drop_cols:list = None, # Columns to drop
-          )->pd.DataFrame:
-    """Get Company 
-    Function to search copper companies, and return the resulting data.
-
-    Parameters:      
-      search_query: Instance of Query onject
-
-        Query objects are used to house and process the query parameters for native fields to copper and 
-        custom fields. 
-
-            Info: help(Query) or ?Query
-      
-      clean_data: bool
-        Whether data is cleaned prior to return
+def search(search_params:dict={}, # search params for standard company fields
+            cf_search:list=[],# search params for custom fields
+            clean_data:bool = True, # Whether to clean results or not
+            cf_fields:list = [], # list of custom fields on companies you would like to include
+            drop_cols:list = None, # Columns to drop
+            )->pd.DataFrame:
+    """Searches copper companies and returns Pandas DataFrame"""
     
-      drop_cols: list
-        list of columns to drop, not include, in the returned dataframe. Names must match the copper field names exactly.
+
+    if "copper_headers" not in globals() and core.get_global_var('copper_headers') is None:
+        raise ValueError('header information must be set with set_headers(). \nSee help(core.set_headers) for more info.')
     
-    Returns:
-      pandas.
-    """
+    if "copper_headers" not in globals() and core.get_global_var('copper_headers') is not None:
+        copper_headers = core.get_global_var('copper_headers')
+    
+    total_pages = page = 1
+    combined_results = []
+    
+    Sess = core.get_session(copper_headers)
 
-    combined_results = core._search_loop(search_query,'https://api.copper.com/developer_api/v1/tasks/search')
+    while page <= total_pages:
+        page_params = {
+            "page_size": 100,
+            "page_number": page,
+            }
+        
+        if search_params != {}: page_params.update(search_params)
 
-    if not combined_results: pass
-    if not clean_data: return combined_results
+        if cf_search != {}:
+            cf_addition = {"custom_fields":cf_search}
+            page_params.update(cf_addition) 
+
+        result = Sess.post('https://api.copper.com/developer_api/v1/companies/search',json=page_params)
+    
+        if result.status_code == 200:
+            total_pages = (int(result.headers['X-PW-TOTAL'])//100)+1
+            
+            # Creatig Progress Bar:
+            if page == 1: progress_bar = tqdm(total=total_pages,desc='Searching Copper')
+            progress_bar.update(1)  # Update the progress bar
+            
+            result_json = result.json()
+            combined_results.extend(result_json)
+            page +=1
+
+        else:
+            print(f"Issue with page {page}. Stopping.")
+            break
+
+    progress_bar.close()  # Close the progress bar when done
+
+    if not clean_data:
+        print('Returning raw results')
+        return combined_results
+ 
    
-    if search_query._custom_fields: Output_CF = Query._custom_fields
-    else:                           Output_CF = None
+    print('\nData Recieved. Cleaning results:')
 
-    cleaned_data = [_clean_company_data(result, Output_CF) for result in combined_results]
+    cleaned_data = [prc_clean_company_data(result, cf_fields) for result in combined_results]
     cleaned_data_df = pd.DataFrame(cleaned_data)
 
-    if drop_cols:      return cleaned_data_df.drop(columns=drop_cols,inplace=True)
-    else:              return cleaned_data_df 
+    print('Returning cleaned results')
+    if isinstance(drop_cols,list):      return cleaned_data_df.drop(columns=drop_cols,inplace=True)
+    else:                               return cleaned_data_df 

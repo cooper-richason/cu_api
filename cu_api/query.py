@@ -3,11 +3,17 @@
 # %% auto 0
 __all__ = ['Query']
 
-# %% ../nbs/query.ipynb 2
+# %% ../nbs/query.ipynb 3
+from . import config
+from .core import get_cf_options
+
 def _check_key(key):
     """
     Function to ensure that 'keys' are custom field id as an interager
     """
+    CF_ID_LOOKUP = getattr(config,'CF_ID_LOOKUP')
+    CUSTOM_FIELDS_DICT = getattr(config,'CUSTOM_FIELDS_DICT')
+    
     if isinstance(key,str) and key in CF_ID_LOOKUP.keys():
         return CF_ID_LOOKUP.get(key)
     elif isinstance(key,int) and key in CUSTOM_FIELDS_DICT.keys():
@@ -22,7 +28,7 @@ def _check_key(key):
     
     raise ValueError(f"Provided key '{key}' is not a valid custom field name(str) or custom field id(int)")
 
-# %% ../nbs/query.ipynb 3
+# %% ../nbs/query.ipynb 4
 def _check_value(key:int, value):
     """
     Function to convert provided custom field values to their corresponding IDs.
@@ -64,7 +70,7 @@ def _check_value(key:int, value):
     
     return list(set(Updated_List))
 
-# %% ../nbs/query.ipynb 4
+# %% ../nbs/query.ipynb 5
 class Query:
     """
     A class to represent and process search parameters for Copper API.
@@ -136,8 +142,6 @@ class Query:
     def _process_input(self, key, value):
         """Default processing function that stores the length of the value."""
 
-        global LIST_CF_NAMES, CUSTOM_FIELDS_DICT
-
         if isinstance(key,list) or key not in ['id','name','address','assignee_id','contact_type_id',
                   'phone_number','city','state','postal_code','email_domains']:
             key = check_key(key) 
@@ -201,7 +205,7 @@ class Query:
         return f"Search Object: \nInputs:  {self._data}, \nProcessed Data:  {self._processed_data} \nNative Fields used:{self._native_fields})"
 
 
-# %% ../nbs/query.ipynb 5
+# %% ../nbs/query.ipynb 6
 def _process_query(Query):
     """
     Function to take in a Query object and outputs items needed to search Copper.

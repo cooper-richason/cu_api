@@ -6,6 +6,9 @@ __all__ = ['session', 'set_headers', 'get_session', 'prc_request_cf_data', 'prc_
 
 # %% ../nbs/core.ipynb 5
 import requests, json, os
+from . import config
+import requests
+import pandas as pd
 
 def set_headers(AccessToken:str, #Access Token (API Key) provided by Copper
                  UserEmail:str): #Email associated with your API key
