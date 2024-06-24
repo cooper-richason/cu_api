@@ -2,5 +2,7 @@ website:
   sidebar:
     contents:
       - index.ipynb
-      - 00_core.ipynb
-      - 01_companies.ipynb
+      - companies.ipynb
+      - config.ipynb
+      - core.ipynb
+      - query.ipynb

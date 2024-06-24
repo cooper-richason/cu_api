@@ -80,60 +80,6 @@ class Query:
     This class allows input of both native Copper field names or custom field IDs for search parameters.
     It processes these inputs to prepare them for querying the Copper API.
     
-    Examples
-    --------
-    Setting search parameters:
-    >>> query = Query()
-    >>> query['field_name'] = 'value_name'
-    >>> query['custom_field_id'] = 'value_name'
-    >>> query['field_name'] = ['value1', 'value2']
-
-    Retrieving processed search parameters:
-    >>> query.keys()
-    >>> query.items()
-    >>> query.values()
-    >>> query.get_output('field_name')
-    
-    Attributes
-    ----------
-    _data : dict
-        Stores the raw input data provided by the user.
-    _processed_data : dict
-        Stores the processed data ready for querying the Copper API.
-    _native_fields : list
-        Keeps track of the Copper's native fields.
-
-    Methods
-    -------
-    get_input(key, default=None)
-        Returns the original input value for the given key.
-    get_output(key, default=None)
-        Returns the processed value for the given key.
-    
-    inputs()
-        Returns all items in the _data dictionary.
-    input_keys()
-        Returns all keys in the _data dictionary.
-    input_values()
-        Returns all values in the _data dictionary.
-    
-    items()
-        Returns all items in the _processed_data dictionary.
-    keys()
-        Returns all keys in the _processed_data dictionary.
-    values()
-        Returns all values in the _processed_data dictionary.
-    
-    __repr__()
-        Returns a formatted string representation of the Query object.
-    __delitem__(key)
-        Deletes the item from both _data and _processed_data dictionaries.
-    __contains__(key)
-        Checks if a key exists in the _data or _processed_data dictionaries.
-    __setitem__(key, value)
-        Sets the item in the _data dictionary and processes it.
-    __getitem__(key)
-        Retrieves the item from the _data or _processed_data dictionaries.
     """
     def __init__(self):
         self._data = {}

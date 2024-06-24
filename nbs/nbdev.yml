@@ -2,8 +2,8 @@ project:
   output-dir: _docs
 
 website:
-  title: "cuapi_wrapper"
-  site-url: "https://cooper-richason.github.io/cuapi-wrapper"
-  description: "A wrapper for working with the Copper CRM API"
+  title: "cu_api"
+  site-url: "https://cooper-richason.github.io/cu_api"
+  description: "a fun project"
   repo-branch: main
-  repo-url: "https://github.com/cooper-richason/cuapi-wrapper"
+  repo-url: "https://github.com/cooper-richason/cu_api"
