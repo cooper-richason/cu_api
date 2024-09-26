@@ -1,6 +1,6 @@
 # CU API
 
-There is a [Copper's](https://copper.com/) API a lot for work, so a module of functions to work with in in Python. This is my attempt to turn these functions into a package that can be used by others.
+I use [Copper's](https://copper.com/) API a lot for work, so a module of functions to work with in in Python. This is my attempt to turn these functions into a package that can be used by others.
 
 
 ## Installation
