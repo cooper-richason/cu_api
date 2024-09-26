@@ -2,7 +2,6 @@
 
 There is a [Copper's](https://copper.com/) API a lot for work, so a module of functions to work with in in Python. This is my attempt to turn these functions into a package that can be used by others.
 
-------------------------------------------------------------------------
 
 ## Installation
 
@@ -17,8 +16,6 @@ Or install the package to your environment in the command line:
 ``` {.bash .shell}
 pip install cu_api
 ```
-
-------------------------------------------------------------------------
 
 ## Queries and Searching
 
