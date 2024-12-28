@@ -2,9 +2,8 @@ website:
   sidebar:
     contents:
       - index.ipynb
-      - Testing.ipynb
-      - companies.ipynb
-      - config.ipynb
-      - core.ipynb
-      - query.ipynb
-      - search.ipynb
+      - 01_config.ipynb
+      - 02_query.ipynb
+      - 03_search.ipynb
+      - 10_core.ipynb
+      - 20_companies.ipynb
