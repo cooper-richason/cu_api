@@ -5,10 +5,10 @@ __all__ = ['session', 'set_headers', 'get_session', 'prc_request_cf_data', 'prc_
            'get_cf_info', 'get_cf_options', 'cf_option_name']
 
 # %% ../nbs/core.ipynb 5
-import requests, json, os
+import requests, json, os, time
 from . import config
-import requests
 import pandas as pd
+from tqdm import tqdm
 
 # %% ../nbs/core.ipynb 6
 def set_headers(AccessToken:str, #Access Token (API Key) provided by Copper
@@ -37,7 +37,7 @@ def set_headers(AccessToken:str, #Access Token (API Key) provided by Copper
         'Content-Type':'application/json'
         }
 
-# %% ../nbs/core.ipynb 7
+# %% ../nbs/core.ipynb 8
 session = None
 
 def get_session(**kwargs):
@@ -68,7 +68,7 @@ def get_session(**kwargs):
     
     return config.SESSION
 
-# %% ../nbs/core.ipynb 10
+# %% ../nbs/core.ipynb 11
 def prc_request_cf_data():
     """
     Helpter function to request the custom field data.
@@ -114,7 +114,7 @@ def prc_clean_cf_data(data:json):
 
     return output_dict
 
-# %% ../nbs/core.ipynb 12
+# %% ../nbs/core.ipynb 13
 def prc_get_cf_fields():
     """
     Checks if custom_fields has been set and creates it if it hasn't been set. 
@@ -143,7 +143,7 @@ def prc_get_cf_fields():
         config.LIST_CF_NAMES = custom_fields_list         # List of Names
         config.CF_ID_LOOKUP = reverse_id_lookup           # Name -> ID
 
-# %% ../nbs/core.ipynb 14
+# %% ../nbs/core.ipynb 15
 def get_cf_info(cf_id:str,     # ID of custom field
                 cf_info:list = None,  # Designed information about field, list if multiple items
                )->list: #Returns list if cf_info is list. Otherwise, returns value
@@ -189,51 +189,4 @@ def cf_option_name(cf_id:int, #Coppper ID for custom field
                    option_id:int, #Coppper ID for option
                   )->str: #Returns name/value of option
     return get_cf_options(cf_id).get(option_id)
-
-
-# %% ../nbs/core.ipynb 15
-def _search_loop(search_query, # Instance of Query object
-                 url, # Copper API url
-                )->pd.DataFrame:
-    """Standard search loop used across all Copper record types
-    """
-    
-    Sess = core.get_session()
-
-    Native_Parmas, CF_Parmsm  = process_query(search_query)
-
-    total_pages = page = 1
-    combined_results = []
-    
-    while page <= total_pages:
-        page_params = {
-            "page_size": 100,
-            "page_number": page,
-            }
-        
-        if Native_Parmas: page_params.update(Native_Parmas)
-
-        if CF_Parmsm:     page_params.update({"custom_fields":CF_Parmsm}) 
-
-        result = Sess.post(url,json=page_params)
-    
-        if result.status_code == 200:
-            total_pages = (int(result.headers['X-PW-TOTAL'])//100)+1
-            
-            # Creatig Progress Bar:
-            if page == 1: progress_bar = tqdm(total=total_pages,desc='Searching Copper')
-            progress_bar.update(1)  # Update the progress bar
-            
-            result_json = result.json()
-            combined_results.extend(result_json)
-            page +=1
-
-        else:
-            print(f"Issue with page {page}. Stopping.")
-            combined_results = None
-            break
-    
-    progress_bar.close()  # Close the progress bar when done
-    
-    return combined_results
 
