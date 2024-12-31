@@ -70,16 +70,3 @@ from cu_api import search
 
 df = search.companies(Advertisers)
 ```
-
-
-import cu_api.companies as companies
-
-companies.set_headers(os.environ['MY_COPPER_KEY'],'myemail@email.com')
-
-SunnyStates = companies.Query
-SunnyStates['state'] = ['CA','FL','AZ','TX']
-SunnyStates['Amenities'] = ['Pool','Beach','Hot tub']
-SunnyStates.outputs = ['Account Manager','Lifetime Spend']
-
-companies.search(SunnyStates)
-```
