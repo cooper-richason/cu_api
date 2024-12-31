@@ -125,7 +125,7 @@ def search(search_query,            # Instance of Query object
 
     # Processing Rows:
     cleaned_rows = []
-    for result in tqdm(combined_results,'Cleaning Data',total=len(combined_results)):
+    for result in tqdm(combined_results,'Cleaning Data',total=len(combined_results),leave=False):
         cleaned_rows.append(_clean_row(result, cf_fields))
     
     # To Clean, or not to Clean

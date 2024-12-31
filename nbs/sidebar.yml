@@ -2,9 +2,12 @@ website:
   sidebar:
     contents:
       - index.ipynb
-      - companies.ipynb
-      - config.ipynb
-      - core.ipynb
-      - query.ipynb
-      - search.ipynb
+      - tasks.ipynb
       - testing.ipynb
+      - section: API
+        contents:
+          - API/companies.ipynb
+          - API/config.ipynb
+          - API/core.ipynb
+          - API/query.ipynb
+          - API/search.ipynb
