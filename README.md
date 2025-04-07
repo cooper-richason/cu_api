@@ -1,6 +1,7 @@
-# CU API
+# CU_API
+> A wrapper for the Copper CRM API
 
-I use [Copper's](https://copper.com/) API a lot for work, so a module of functions to work with in in Python. This is my attempt to turn these functions into a package that can be used by others.
+Copper is a CRM commonly used by small businesses and startups, and it happens to be a system I have historidcally worked with a lot for work projects. To make it easier to work with, I've build modules and systems overtime, and this is my attempt to turn these functions into a package that can be used by others.
 
 
 ## Installation
@@ -57,7 +58,7 @@ Your `Advertisers` query can then used with the `search` function to get data fr
 ## How to use
 
 Start by importing all the modules you’ll need for your project. The
-`cuapi_wrapper` package is broken down into seperate modules for working
+`cu_api` package is broken down into seperate modules for working
 with companies, tasks, opportunities, users, etc.
 
 For example, if we wanted to look at **companies** in copper, we should
