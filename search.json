@@ -1,0 +1,152 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "cu_api",
+    "section": "",
+    "text": "This package is designed to be a user friendly wrapper for the Copper CRM API to make interacting witth and pulling data easier.",
+    "crumbs": [
+      "cu_api"
+    ]
+  },
+  {
+    "objectID": "index.html#install",
+    "href": "index.html#install",
+    "title": "cu_api",
+    "section": "Install",
+    "text": "Install\nYou can install the cu_api package through PyPI:\npip install cu_api",
+    "crumbs": [
+      "cu_api"
+    ]
+  },
+  {
+    "objectID": "index.html#how-to-use",
+    "href": "index.html#how-to-use",
+    "title": "cu_api",
+    "section": "How to use",
+    "text": "How to use\nStart by importing all the modules you’ll need for your project. The cuapi_wrapper package is broken down into seperate modules for working with companies, tasks, opportunities, users, etc.\nFor example, if we wanted to look at companies in copper, we should start by importing the copper_crm.companies module. We can then search these companies for those who are in California:\n\nimport cu_api.companies as companies\n\ncompanies.set_headers(os.environ['MY_COPPER_KEY'],'myemail@email.com')\n\nSunnyStates = companies.Query\nSunnyStates['state'] = ['CA','FL','AZ','TX']\nSunnyStates['Amenities'] = ['Pool','Beach','Hot tub']\nSunnyStates.outputs = ['Account Manager','Lifetime Spend']\n\ncompanies.search(SunnyStates)",
+    "crumbs": [
+      "cu_api"
+    ]
+  },
+  {
+    "objectID": "API/search.html",
+    "href": "API/search.html",
+    "title": "Search",
+    "section": "",
+    "text": "First, we need a way to easily set the header information for requests to the Copper API. I’m envisioning a process something like\nimport cu_api\n\ncuapi_wrapper.set_headers(os.environ('COPPER_KEY'), 'my-cool-email@gmail.com')\n# rest of code...\nTo do this, let’s make a system that takes in the key pieces of header information and greats global variable with all of the header information. Other functions then can use this global var.\n\nsource\n\n\n\n search_over_field (field:str, url:str, search_query)\n\n\nsource\n\n\n\n\n _search_loop (search_query, url, max_retries:int=5,\n               retry_delay:float=2.0, **kwags)\n\nStandard search loop used across all Copper record types\n\n\n\n\nType\nDefault\nDetails\n\n\n\n\nsearch_query\n\n\nInstance of Query object\n\n\nurl\n\n\nCopper API url,\n\n\nmax_retries\nint\n5\nMaximum retry attempts\n\n\nretry_delay\nfloat\n2.0\nDelay in seconds between retries,\n\n\nkwags\nVAR_KEYWORD\n\n\n\n\n\n\nsource\n\n\n\n\n get_owners (assignee_ids:list)",
+    "crumbs": [
+      "API",
+      "Search"
+    ]
+  },
+  {
+    "objectID": "API/search.html#api-requests-and-headers",
+    "href": "API/search.html#api-requests-and-headers",
+    "title": "Search",
+    "section": "",
+    "text": "First, we need a way to easily set the header information for requests to the Copper API. I’m envisioning a process something like\nimport cu_api\n\ncuapi_wrapper.set_headers(os.environ('COPPER_KEY'), 'my-cool-email@gmail.com')\n# rest of code...\nTo do this, let’s make a system that takes in the key pieces of header information and greats global variable with all of the header information. Other functions then can use this global var.\n\nsource\n\n\n\n search_over_field (field:str, url:str, search_query)\n\n\nsource\n\n\n\n\n _search_loop (search_query, url, max_retries:int=5,\n               retry_delay:float=2.0, **kwags)\n\nStandard search loop used across all Copper record types\n\n\n\n\nType\nDefault\nDetails\n\n\n\n\nsearch_query\n\n\nInstance of Query object\n\n\nurl\n\n\nCopper API url,\n\n\nmax_retries\nint\n5\nMaximum retry attempts\n\n\nretry_delay\nfloat\n2.0\nDelay in seconds between retries,\n\n\nkwags\nVAR_KEYWORD\n\n\n\n\n\n\nsource\n\n\n\n\n get_owners (assignee_ids:list)",
+    "crumbs": [
+      "API",
+      "Search"
+    ]
+  },
+  {
+    "objectID": "API/companies.html",
+    "href": "API/companies.html",
+    "title": "Companies",
+    "section": "",
+    "text": "Searching Copper Companies\nWorking with Copper Companies is a core feature of cu_api and is done with the companies.search() function, but before you can start any search, you must first form your Query.\nA Query is an object that holds all of your search parameters and tells cu_api what you want from Copper. Once you create a query and give it to cu_api via the companies.search(Query) function, it takes care of all the idiosyncrasies of the Copper API.\n\nQuery info here\nblah Blah Blah\n\nsource\n\n\n\nsearch\n\n search (search_query, clean_data:bool=True, drop:list=None, **kwargs)\n\n*Search for Company records in Copper!\nThis function allows you to systematically search Copper for companies that match the parameters specified in your Query and returns the returns the data as a pandas dataframe*\n\n\n\n\nType\nDefault\nDetails\n\n\n\n\nsearch_query\n\n\nInstance of Query object\n\n\nclean_data\nbool\nTrue\nWhether to clean results or not\n\n\ndrop\nlist\nNone\nColumns to drop from final dataframe\n\n\nkwargs\nVAR_KEYWORD\n\n\n\n\nReturns\nDataFrame\n\n\n\n\n\n\n\nUpdating Companies\n\nsource\n\n\nupdate\n\n update (df:pandas.core.frame.DataFrame, columns:list, cf_ids:list=None)\n\n*Function to update companies in copper using a pandas DataFrame with a column of ‘id’ to identify companies and a list of the columns you would like to update.\nEither pass in a list of custom field ids, or a list will be created using matching column names.*",
+    "crumbs": [
+      "API",
+      "Companies"
+    ]
+  },
+  {
+    "objectID": "API/core.html",
+    "href": "API/core.html",
+    "title": "core",
+    "section": "",
+    "text": "First, we need a way to easily set the header information for requests to the Copper API. I’m envisioning a process something like\nimport cu_api\n\ncuapi_wrapper.set_headers(os.environ('COPPER_KEY'), 'my-cool-email@gmail.com')\n# rest of code...\nTo do this, let’s make a system that takes in the key pieces of header information and greats global variable with all of the header information. Other functions then can use this global var.\n\nsource\n\n\n\n set_headers (AccessToken:str, UserEmail:str)\n\n*Sets global variable to hold header information for Copper API requests. This must be set before any requests are made. See documentation for more info.\nParameters: AccessToken: type=str This is your Access Token provided by Copper. These can be found and created under Settings &gt; Intergrations &gt; API Keys.\nUserEmail: type=str This is your the email associated with your Copper account.*\n\n\n\n\nType\nDetails\n\n\n\n\nAccessToken\nstr\nAccess Token (API Key) provided by Copper\n\n\nUserEmail\nstr\nEmail associated with your API key\n\n\n\n\nsource\n\n\n\n\n get_session (**kwargs)\n\n*Function to get current session or create one if one doesn’t exist. If both keyword arguments are provided, then the set_headers() function is called.\nOptional Keyword Arguments:\nAccessToken: type=str This is your Access Token provided by Copper. These can be found and created under Settings &gt; Integrations &gt; API Keys.\nUserEmail: type=str This is your the email associated with your Copper account.*",
+    "crumbs": [
+      "API",
+      "core"
+    ]
+  },
+  {
+    "objectID": "API/core.html#api-requests-and-headers",
+    "href": "API/core.html#api-requests-and-headers",
+    "title": "core",
+    "section": "",
+    "text": "First, we need a way to easily set the header information for requests to the Copper API. I’m envisioning a process something like\nimport cu_api\n\ncuapi_wrapper.set_headers(os.environ('COPPER_KEY'), 'my-cool-email@gmail.com')\n# rest of code...\nTo do this, let’s make a system that takes in the key pieces of header information and greats global variable with all of the header information. Other functions then can use this global var.\n\nsource\n\n\n\n set_headers (AccessToken:str, UserEmail:str)\n\n*Sets global variable to hold header information for Copper API requests. This must be set before any requests are made. See documentation for more info.\nParameters: AccessToken: type=str This is your Access Token provided by Copper. These can be found and created under Settings &gt; Intergrations &gt; API Keys.\nUserEmail: type=str This is your the email associated with your Copper account.*\n\n\n\n\nType\nDetails\n\n\n\n\nAccessToken\nstr\nAccess Token (API Key) provided by Copper\n\n\nUserEmail\nstr\nEmail associated with your API key\n\n\n\n\nsource\n\n\n\n\n get_session (**kwargs)\n\n*Function to get current session or create one if one doesn’t exist. If both keyword arguments are provided, then the set_headers() function is called.\nOptional Keyword Arguments:\nAccessToken: type=str This is your Access Token provided by Copper. These can be found and created under Settings &gt; Integrations &gt; API Keys.\nUserEmail: type=str This is your the email associated with your Copper account.*",
+    "crumbs": [
+      "API",
+      "core"
+    ]
+  },
+  {
+    "objectID": "API/core.html#dealing-with-custom-fields",
+    "href": "API/core.html#dealing-with-custom-fields",
+    "title": "core",
+    "section": "Dealing with Custom Fields",
+    "text": "Dealing with Custom Fields\nCustom Fields are a big part of the Copper CRM. They can be added to essentially every type of record, but they can be a pain to work with. We are going to need a system of functions that make this easer.\nI am going to create a series of helper functions and a main function to combine the helper functions. I’m going to label all of these as “process” functions with the prefix “prc_” so that they don’t show up easily to users.\n\nsource\n\nprc_clean_cf_data\n\n prc_clean_cf_data (data:&lt;module'json'from'/opt/hostedtoolcache/Python/3.1\n                    0.16/x64/lib/python3.10/json/__init__.py'&gt;)\n\nFunction to process the custom field data.\n\nsource\n\n\nprc_request_cf_data\n\n prc_request_cf_data ()\n\nHelpter function to request the custom field data.\nI’m going to make a function that checks if the custom field information has already been obtained and gets the data if not. I’m going to store the data in the custom_fields global variable.\n\nsource\n\n\nprc_get_cf_fields\n\n prc_get_cf_fields ()\n\nChecks if custom_fields has been set and creates it if it hasn’t been set. Called by all Custom Field Functions.\nNow that we are able to get Custom Field information, let’s create some functions to work with them.\n\nsource\n\n\ncf_option_name\n\n cf_option_name (cf_id:int, option_id:int)\n\n\n\n\n\nType\nDetails\n\n\n\n\ncf_id\nint\nCoppper ID for custom field\n\n\noption_id\nint\nCoppper ID for option\n\n\nReturns\nstr\nReturns name/value of option\n\n\n\n\nsource\n\n\nget_cf_options\n\n get_cf_options (cf_id:int)\n\n\n\n\n\nType\nDetails\n\n\n\n\ncf_id\nint\nCoppper ID for custom field\n\n\nReturns\ndict\nReturns dictionary of options for field\n\n\n\n\nsource\n\n\nget_cf_info\n\n get_cf_info (cf_id:str, cf_info:list=None)\n\n*Function to get the custom field information based on the field id. Can be supplied with a sigular value for ‘cf_info’ or multiple as a list.\nPossible itmes are [‘name’,‘data_type’,‘available_on’,‘is_filterable’,‘options’]*\n\n\n\n\n\n\n\n\n\n\nType\nDefault\nDetails\n\n\n\n\ncf_id\nstr\n\nID of custom field\n\n\ncf_info\nlist\nNone\nDesigned information about field, list if multiple items\n\n\nReturns\nlist\n\nReturns list if cf_info is list. Otherwise, returns value",
+    "crumbs": [
+      "API",
+      "core"
+    ]
+  },
+  {
+    "objectID": "API/query.html",
+    "href": "API/query.html",
+    "title": "Query Object",
+    "section": "",
+    "text": "source",
+    "crumbs": [
+      "API",
+      "Query Object"
+    ]
+  },
+  {
+    "objectID": "API/query.html#setting-parameters",
+    "href": "API/query.html#setting-parameters",
+    "title": "Query Object",
+    "section": "Setting Parameters",
+    "text": "Setting Parameters\nUsers are able to pass parameters by settting setting which values they want for any field on company records\nQuery['Field Name'] = ['Vales','I','want']\n\n# Or, if you know the ID of the custome field, you can use that instead of the name\n\nQuery[8675309] = ['Jenny']\n\n# You can do the same thing with field value if you know those as well:\n\nQuery['Custom Field'] = [667788,889900,112233]\n\nsource\n\nQuery.__setitem__\n\n Query.__setitem__ (key:str, value:list[str])\n\nAllows user to set accepte values for a Copper field.\n\n\n\n\nType\nDetails\n\n\n\n\nkey\nstr\nName of Copper field or the Custome Field ID\n\n\nvalue\nlist\nField values that you want to be included",
+    "crumbs": [
+      "API",
+      "Query Object"
+    ]
+  },
+  {
+    "objectID": "API/query.html#processing-inputs",
+    "href": "API/query.html#processing-inputs",
+    "title": "Query Object",
+    "section": "Processing Inputs",
+    "text": "Processing Inputs\nAfter parameters are inputed by the user, work is done behind the scene to check if this inputs are valid and pre-prossess before being used in a search.\n\n1. Ensuring the keys provide by the user are valid field names or valid field ids\n\nsource\n\n_check_key\n\n _check_key (key)\n\nFunction to ensure that ‘keys’ are custom field id as an interager\n\n\n\n2. Ensuring values provided by user are valid names or valid value ids\n\nsource\n\n_check_value\n\n _check_value (key:int, value)\n\n*Function to convert provided custom field values to their corresponding IDs.\nThis function ensures that the provided ‘values’ are the IDs for the given custom field key ‘key’.*\n\n\n\nCombining these into Function\nThe _process_input function performs both _check_key and _check_value operations before storing the processed key and value in the _processed_data dictionary.\n\nsource\n\nQuery._process_input\n\n Query._process_input (key, value)\n\nDefault processing function that stores the length of the value.",
+    "crumbs": [
+      "API",
+      "Query Object"
+    ]
+  },
+  {
+    "objectID": "API/query.html#methods-and-functions",
+    "href": "API/query.html#methods-and-functions",
+    "title": "Query Object",
+    "section": "Methods and Functions",
+    "text": "Methods and Functions\n\nsource\n\nQuery.get_output\n\n Query.get_output (key, default=None)\n\nGet the processed value.\n\nsource\n\n\nQuery.get_input\n\n Query.get_input (key, default=None)\n\nGet the original value provided by user.\n\nsource\n\n\nQuery.__getitem__\n\n Query.__getitem__ (key)\n\n\nsource\n\n\nQuery.values\n\n Query.values ()\n\n\nsource\n\n\nQuery.keys\n\n Query.keys ()\n\n\nsource\n\n\nQuery.items\n\n Query.items ()\n\n\nsource\n\n\nQuery.input_values\n\n Query.input_values ()\n\n\nsource\n\n\nQuery.input_keys\n\n Query.input_keys ()\n\n\nsource\n\n\nQuery.inputs\n\n Query.inputs ()",
+    "crumbs": [
+      "API",
+      "Query Object"
+    ]
+  },
+  {
+    "objectID": "tasks.html",
+    "href": "tasks.html",
+    "title": "Tasks",
+    "section": "",
+    "text": "Searching Copper Tasks\nA Query is an object that holds all of your search parameters and tells cu_api what you want from Copper. Once you create a query and give it to cu_api via the tasks.search(Query) function\n\nQuery info here\nblah Blah Blah\n\nsource\n\n\n\nsearch\n\n search (search_query, clean_data:bool=True, drop:list=None, **kwargs)\n\n*Search for task records in Copper!\nThis function allows you to systematically search Copper for tasks that match the parameters specified in your Query and returns the returns the data as a pandas dataframe\nSupported standard fields for search: name,*\n\n\n\n\nType\nDefault\nDetails\n\n\n\n\nsearch_query\n\n\nInstance of Query object\n\n\nclean_data\nbool\nTrue\nWhether to clean results or not\n\n\ndrop\nlist\nNone\nColumns to drop from final dataframe\n\n\nkwargs\nVAR_KEYWORD\n\n\n\n\nReturns\nDataFrame\n\n\n\n\n\n\n\nUpdating Tasks\n\nsource\n\n\nupdate\n\n update (df:pandas.core.frame.DataFrame, columns:list, cf_ids:list=None)\n\n*Function to update companies in copper using a pandas DataFrame with a column of ‘id’ to identify companies and a list of the columns you would like to update.\nEither pass in a list of custom field ids, or a list will be created using matching column names.*",
+    "crumbs": [
+      "Tasks"
+    ]
+  }
+]
