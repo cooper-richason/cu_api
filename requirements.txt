@@ -1,0 +1,8 @@
+pandas
+requests
+tqdm
+fastcore
+nbdev
+aiohttp
+ssl
+certifi
